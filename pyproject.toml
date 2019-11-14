@@ -5,8 +5,7 @@ description = ""
 authors = ["MED <rickyblackwall@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "3.6.1"
-tensorflow = "1.15.0"
+python = "^3.6.1"
 sklearn = "0.0"
 pandas = "0.25.3"
 matplotlib = "3.1.1"
