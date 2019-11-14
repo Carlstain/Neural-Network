@@ -1,25 +1,24 @@
 import tensorflow as tf
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 
+
 def one_hot_encode(y):
     n_labels = len(y)
     n_unique_labels = len(np.unique(y))
-    one_hot_encode = np.zeros((n_labels,n_unique_labels))
-    one_hot_encode[np.arange(n_labels),y] = 1
+    one_hot_encode = np.zeros((n_labels, n_unique_labels))
+    one_hot_encode[np.arange(n_labels), y] = 1
     return one_hot_encode
 
 
 # Dataset Read
 def read_data():
-    df = pd.read_csv(".\\TrainingModels\\points-1.csv")
+    df = pd.read_csv(".\\TrainingModels\\points-2.csv")
     X = df[df.columns[0:2]].values
     y = df[df.columns[2]]
-    #print(y)
     encoder = LabelEncoder()
     encoder.fit(y)
     y = encoder.transform(y)
@@ -48,10 +47,10 @@ n_hidden2 = 2
 x = tf.placeholder(tf.float32, [None, n_dim])
 W = tf.Variable(tf.zeros([n_dim, nb_class]))
 b = tf.Variable(tf.zeros([nb_class]))
-y_ = tf.placeholder(tf.float32,[None,nb_class])
+y_ = tf.placeholder(tf.float32, [None, nb_class])
 
 
-def perceptron(x,weights,biases):
+def perceptron(x, weights, biases):
     hidden_layer1 = tf.add(tf.matmul(x,weights['h1']), biases['b1'])
     hidden_layer1 = tf.nn.sigmoid(hidden_layer1)
 
@@ -84,7 +83,7 @@ init = tf.global_variables_initializer()
 
 save = tf.train.Saver()
 
-y = perceptron(x,weights,biases)
+y = perceptron(x, weights, biases)
 
 
 
@@ -103,8 +102,8 @@ accuracy_history = []
 for epoch in range(epochs):
     sess.run(training_step, feed_dict={x: train_x, y_:train_y})
     cost = sess.run(cost_calc, feed_dict={x: train_x, y_:train_y})
-    cost_history = np.append(cost_history,cost)
-    correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+    cost_history = np.append(cost_history, cost)
+    correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     pred_y = sess.run(y, feed_dict={x: test_x})
@@ -115,12 +114,12 @@ for epoch in range(epochs):
     accuracy = (sess.run(accuracy, feed_dict={x: train_x, y_: train_y}))
     accuracy_history.append(accuracy)
 
-    print('iteration : ',epoch, '  -  ' ,  "- Accuracy: ",accuracy)
+    print('iteration : ', epoch, '  -  ' ,  "- Accuracy: ", accuracy)
 
 
 save_path = save.save(sess, model_path)
 
-correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-print("\n\n\n""Final accuracy : ",sess.run(accuracy, feed_dict={x: test_x, y_:test_y}))
+print("\n\n\n""Final accuracy : ", sess.run(accuracy, feed_dict={x: test_x, y_:test_y}))
 
