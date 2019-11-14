@@ -2,16 +2,14 @@
 name = "neural-network"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["MED <rickyblackwall@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.5.3"
-sklearn = "^0.0.0"
-tensorflow = "^1.15"
-pandas = "^0.25.3"
-xlrd = "^1.0"
-matplotlib = "^3.1"
-XlsxWriter = "^1.0"
+python = "3.6.1"
+tensorflow = "1.15.0"
+sklearn = "0.0"
+pandas = "0.25.3"
+matplotlib = "3.1.1"
 
 [tool.poetry.dev-dependencies]
 
